@@ -1,0 +1,4 @@
+requests
+gevent
+tld
+argparse

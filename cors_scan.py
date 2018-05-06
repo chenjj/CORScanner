@@ -1,0 +1,100 @@
+import json
+import sys
+import argparse
+
+from common.common import *
+from common.logger import Log
+from common.corscheck import CORSCheck
+
+import gevent
+from gevent import monkey
+monkey.patch_all()
+from gevent.pool import Pool
+from gevent.queue import Queue
+
+
+def banner():
+    print("""%s
+   ____ ___  ____  ____   ____    _    _   _ _____ ____  
+  / ___/ _ \|  _ \/ ___| / ___|  / \  | \ | | ____|  _ \ 
+ | |  | | | | |_) \___ \| |     / _ \ |  \| |  _| | |_) |
+ | |__| |_| |  _ < ___) | |___ / ___ \| |\  | |___|  _ < 
+  \____\___/|_| \_\____/ \____/_/   \_\_| \_|_____|_| \_\
+                                                         %s%s
+     # Coded By Jianjun Chen - whucjj@gmail.com%s
+    """ % ('\033[91m', '\033[0m', '\033[93m', '\033[0m'))
+
+
+def parser_error(errmsg):
+    banner()
+    print("Usage: python " + sys.argv[0] + " [Options] use -h for help")
+    print("Error: " + errmsg)
+    sys.exit()
+
+
+def parse_args():
+    # parse the arguments
+    parser = argparse.ArgumentParser(
+        epilog='\tExample: \r\npython ' + sys.argv[0] + " -u google.com")
+    parser.error = parser_error
+    parser._optionals.title = "OPTIONS"
+    parser.add_argument(
+        '-u', '--url', help="URL/domain to check it's CORS policy")
+    parser.add_argument(
+        '-i',
+        '--input',
+        help='URL/domain list file to check their CORS policy')
+    parser.add_argument(
+        '-t',
+        '--threads',
+        help='Number of threads to use for CORS scan',
+        type=int,
+        default=50)
+    parser.add_argument('-o', '--output', help='Save the results to text file')
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        help='Enable Verbosity and display results in realtime',
+        nargs='?',
+        default=False)
+    args = parser.parse_args()
+    if not (args.url or args.input):
+        parser.error("No url inputed, please add -u or -i option")
+    return args
+
+
+def scan(cfg):
+    while not cfg["queue"].empty():
+        try:
+            item = cfg["queue"].get(timeout=1.0)
+            cors_check = CORSCheck(item, cfg)
+            cors_check.check_one_by_one()
+        except Exception, e:
+            print e
+            break
+
+
+def main():
+    args = parse_args()
+    banner()
+
+    queue = Queue()
+    log_level = 1 if args.verbose else 2  # 1: INFO, 2: WARNING
+
+    log = Log(args.output, log_level)
+    cfg = {"logger": log, "queue": queue}
+
+    read_urls(args.url, args.input, queue)
+
+    print "Start CORS scaning..."
+    threads = [gevent.spawn(scan, cfg) for i in range(args.threads)]
+
+    try:
+        gevent.joinall(threads)
+    except KeyboardInterrupt, e:
+        pass
+    print "Finished CORS scaning..."
+
+
+if __name__ == '__main__':
+    main()
