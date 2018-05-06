@@ -6,7 +6,7 @@ Correct configuration of CORS policy is critical to website security, but there 
 
 ## Screenshots
 
-![CORScaner](img/screenshot.png "CORScaner in action")
+![CORScaner](images/screenshot.png "CORScaner in action")
 
 ## Installation
 
