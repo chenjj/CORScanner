@@ -2,7 +2,7 @@
 
 CORScaner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to checking misconfigured CORS policies for the domain they are targeting. 
 
-Correct configuration of CORS policy is critical to website security, but there are many error-prone corner cases lying in CORS configurations.  Web developers who are not aware of these corner casess are likely to make mistakes. Thus, we summarize several common types of CORS misconfigurations and integrated them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
+The correct configuration of CORS policy is critical to website security, but CORS configurations have many error-prone corner cases.  Web developers who are not aware of these corner cases are likely to make mistakes. Thus, we summarize several common types of CORS misconfigurations and integrate them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
 
 ## Screenshots
 
