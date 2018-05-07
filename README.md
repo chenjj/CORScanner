@@ -65,7 +65,7 @@ Suffix_match             | `wwww.example.com` trusts `evilexample.com`
 Not_escape_dot           | `wwww.example.com` trusts `wwwaexample.com`
 Substring match          | `wwww.example.com` trusts `example.co`
 trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
-HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
+HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
 
 ## License
