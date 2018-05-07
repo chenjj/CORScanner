@@ -1,18 +1,18 @@
-## About CORScaner 
+## About CORScanner 
 
-CORScaner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to check whether the domains/urls they are targeting have insecure CORS policies. 
+CORScanner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to check whether the domains/urls they are targeting have insecure CORS policies. 
 
 The correct configuration of CORS policy is critical to website security, but CORS configurations have many error-prone corner cases.  Web developers who are not aware of these corner cases are likely to make mistakes. Thus, we summarize several common types of CORS misconfigurations and integrate them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
 
 ## Screenshots
 
-![CORScaner](images/screenshot.png "CORScaner in action")
+![CORScanner](images/screenshot.png "CORScanner in action")
 
 ## Installation
 
 - Download this tool
 ```
-git clone https://github.com/chenjj/CORScaner.git
+git clone https://github.com/chenjj/CORScanner.git
 ```
 
 - Install dependencies
@@ -20,7 +20,7 @@ git clone https://github.com/chenjj/CORScaner.git
 sudo pip install -r requirements.txt
 ```
 
-CORScaner depends on the `requests`, `gevent`, `tld` and `argparse` python modules.
+CORScanner depends on the `requests`, `gevent`, `tld` and `argparse` python modules.
 
 ## Recommended Python Version:
 
@@ -70,7 +70,7 @@ trust_any_subdomain      | Risky trust denpendcy, a subdomain XSS may steal its 
 
 ## License
 
-CORScaner is licensed under the MIT license. take a look at the [LICENSE](./LICENSE) for more information.
+CORScanner is licensed under the MIT license. take a look at the [LICENSE](./LICENSE) for more information.
 
 
 ## Credits
