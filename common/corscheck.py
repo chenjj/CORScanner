@@ -8,11 +8,14 @@ class CORSCheck:
     """docstring for CORSCheck"""
     url = None
     cfg = None
+    headers = None
 
-    def __init__(self, url, cfg):
+    def __init__(self, url, cfg, headers):
         self.url = url
         self.cfg = cfg
-
+        if headers != None:
+            self.headers = headers
+        
     def send_req(self, url, origin):
         try:
             headers = {
@@ -20,13 +23,12 @@ class CORSCheck:
                 origin,
                 'Cache-Control':
                 'no-cache',
-                'Cookie':
-                'a=b',
                 'User-Agent':
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            resp = requests.get(
-                self.url, timeout=5, headers=headers, allow_redirects=False)
+            if self.headers != None:
+                headers.update(self.headers)
+            resp = requests.get(self.url, timeout=5, headers=headers, allow_redirects=False)
         except Exception, e:
             resp = None
         return resp

@@ -7,6 +7,18 @@ def normalize_url(i):
     else:
         return ["http://" + i, "https://" + i]
 
+def parse_headers(headers):
+    if headers == None:
+        return None
+    else:
+        parsedheaders = {}
+    
+        for i in headers:
+            header = i.split()
+            header[0] = header[0][:-1]
+            for i in header:
+                parsedheaders[header[0]] = header[1]
+        return parsedheaders
 
 def read_file(input_file):
     lines = linecache.getlines(input_file)
