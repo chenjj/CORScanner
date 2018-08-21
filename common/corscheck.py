@@ -10,11 +10,11 @@ class CORSCheck:
     cfg = None
     headers = None
 
-    def __init__(self, url, cfg, headers):
+    def __init__(self, url, cfg):
         self.url = url
         self.cfg = cfg
-        if headers != None:
-            self.headers = headers
+        if cfg["headers"] != None:
+            self.headers = cfg["headers"]
         
     def send_req(self, url, origin):
         try:

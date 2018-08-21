@@ -64,11 +64,11 @@ def parse_args():
     return args
 
 
-def scan(cfg, headers):
+def scan(cfg):
     while not cfg["queue"].empty():
         try:
             item = cfg["queue"].get(timeout=1.0)
-            cors_check = CORSCheck(item, cfg, headers)
+            cors_check = CORSCheck(item, cfg)
             cors_check.check_one_by_one()
         except Exception, e:
             print e
@@ -83,12 +83,12 @@ def main():
     log_level = 1 if args.verbose else 2  # 1: INFO, 2: WARNING
 
     log = Log(args.output, log_level)
-    cfg = {"logger": log, "queue": queue}
+    cfg = {"logger": log, "queue": queue, "headers": parse_headers(args.headers)}
 
     read_urls(args.url, args.input, queue)
 
     print "Start CORS scaning..."
-    threads = [gevent.spawn(scan, cfg, parse_headers(args.headers)) for i in range(args.threads)]
+    threads = [gevent.spawn(scan, cfg) for i in range(args.threads)]
 
     try:
         gevent.joinall(threads)
