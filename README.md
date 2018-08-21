@@ -35,6 +35,7 @@ CORScanner depends on the `requests`, `gevent`, `tld` and `argparse` python modu
 Short Form    | Long Form     | Description
 ------------- | ------------- |-------------
 -u            | --url         | URL/domain to check it's CORS policy
+-d            | --headers     | Add headers to the request
 -i            | --input       | URL/domain list file to check their CORS policy
 -t            | --threads     | Number of threads to use for CORS scan
 -o            | --output      | Save the results to text file
@@ -50,6 +51,10 @@ Short Form    | Long Form     | Description
 * To check CORS misconfigurations of specific URL:
 
 ``python cors_scan.py -u http://example.com/restapi``
+
+* To check CORS misconfiguration with specific headers:
+
+``python cors_scan.py -u example.com -d "Cookie: test"``
 
 * To check CORS misconfigurations of multiple domains/URLs:
 

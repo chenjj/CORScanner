@@ -57,7 +57,7 @@ def parse_args():
         help='Enable Verbosity and display results in realtime',
         nargs='?',
         default=False)
-    parser.add_argument('--headers', help='Add headers to the request.', default=None, nargs='*')
+    parser.add_argument('-d', '--headers', help='Add headers to the request.', default=None, nargs='*')
     args = parser.parse_args()
     if not (args.url or args.input):
         parser.error("No url inputed, please add -u or -i option")
