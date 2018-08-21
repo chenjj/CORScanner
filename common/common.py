@@ -13,11 +13,11 @@ def parse_headers(headers):
     else:
         parsedheaders = {}
     
-        for i in headers:
-            header = i.split()
-            header[0] = header[0][:-1]
-            for i in header:
-                parsedheaders[header[0]] = header[1]
+        for header in headers:
+            index = header.find(":")
+            if index == -1:
+                return None
+            parsedheaders[header[0:index].strip()] = header[index+1:].strip()
         return parsedheaders
 
 def read_file(input_file):
