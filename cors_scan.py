@@ -11,6 +11,7 @@ from gevent import monkey
 monkey.patch_all()
 from gevent.pool import Pool
 from gevent.queue import Queue
+from colorama import init
 
 
 def banner():
@@ -76,6 +77,7 @@ def scan(cfg):
 
 
 def main():
+    init()
     args = parse_args()
     banner()
 
