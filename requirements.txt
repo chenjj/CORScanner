@@ -2,3 +2,4 @@ requests
 gevent
 tld
 argparse
+colorama

@@ -24,7 +24,7 @@ git clone https://github.com/chenjj/CORScanner.git
 sudo pip install -r requirements.txt
 ```
 
-CORScanner depends on the `requests`, `gevent`, `tld` and `argparse` python modules.
+CORScanner depends on the `requests`, `gevent`, `tld`, `colorama` and `argparse` python modules.
 
 ## Recommended Python Version:
 
