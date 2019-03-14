@@ -2,7 +2,7 @@
 
 CORScanner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to check whether the domains/urls they are targeting have insecure CORS policies. 
 
-The correct configuration of CORS policy is critical to website security, but CORS configurations have many error-prone corner cases.  Web developers who are not aware of these corner cases are likely to make mistakes. Thus, we summarize different common types of CORS misconfigurations and integrate them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
+The correct configuration of CORS policy is critical to website security, but CORS configurations have many error-prone corner cases.  Web developers who are not aware of these corner cases are likely to make mistakes. Thus, we summarize different [common types of CORS misconfigurations](#misconfiguration-types) and integrate them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
 
 Technical details: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
 
@@ -65,6 +65,7 @@ Short Form    | Long Form     | Description
 ```python cors_scan.py -h```
 
 ## Misconfiguration types
+This tool covers the following misconfiguration types:
 
 Misconfiguration type    | Description
 ------------------------ | --------------------------
@@ -76,6 +77,8 @@ Substring match          | `wwww.example.com` trusts `example.co`
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
+
+ Welcome to contribute more.
 
 ## Exploitation examples
 Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com. Note that the vulnerability has been fixed.
