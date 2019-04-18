@@ -2,11 +2,14 @@
 
 CORScanner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to check whether the domains/urls they are targeting have insecure CORS policies. 
 
-The correct configuration of CORS policy is critical to website security, but CORS configurations have many error-prone corner cases.  Web developers who are not aware of these corner cases are likely to make mistakes. Thus, we summarize different [common types of CORS misconfigurations](#misconfiguration-types) and integrate them into this tool,  to help developers/security-practioners quickly locate and detect such security issues.
+### Features
+* **Fast**. It uses [gevent](https://github.com/gevent/gevent) for concurrency, which is much faster than Python threads for network scanning.
+* **Comprehensive**. It covers all [the common types of CORS misconfigurations](#misconfiguration-types) we know.
+* **Flexible**. It supports various self-define features (e.g. file output), which is helpful for large-scale scanning.
 
-Technical details: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
-
-中文详解：[绕过浏览器SOP，跨站窃取信息：CORS配置安全漏洞报告及最佳部署实践](https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/)
+Two useful references for understanding CORS systematically: 
+* USENIX security 18 paper: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
+* 中文详解：[绕过浏览器SOP，跨站窃取信息：CORS配置安全漏洞报告及最佳部署实践](https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/)
 
 ## Screenshots
 
