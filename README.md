@@ -3,7 +3,7 @@
 CORScanner is a python tool designed to discover CORS misconfigurations vulnerabilities of websites. It helps website administrators and penetration testers to check whether the domains/urls they are targeting have insecure CORS policies. 
 
 ### Features
-* **Fast**. It uses [gevent](https://github.com/gevent/gevent) for concurrency, which is much faster than Python threads for network scanning.
+* **Fast**. It uses [gevent](https://github.com/gevent/gevent) instead of Python threads for concurrency, which is much faster for network scanning.
 * **Comprehensive**. It covers all [the common types of CORS misconfigurations](#misconfiguration-types) we know.
 * **Flexible**. It supports various self-define features (e.g. file output), which is helpful for large-scale scanning.
 
