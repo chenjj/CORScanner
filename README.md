@@ -80,9 +80,10 @@ Substring match          | `wwww.example.com` trusts `example.co`, which could b
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
-
- Welcome to contribute more.
-
+custom_third_parties     | Custom third parties origins set in origins.json file.
+  
+Welcome to contribute more.  
+  
 ## Exploitation examples
 Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com(fixed). Secrets on walmart.com can be read by any malicious website(in the demo we use localhost as the malicious website).
 

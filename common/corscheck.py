@@ -1,4 +1,4 @@
-import requests
+import requests, json, os, inspect
 from urlparse import urlparse
 
 from tld import get_tld
@@ -46,222 +46,128 @@ class CORSCheck:
 
         if resp_headers == None:
             return -1
-        if resp_headers.get("access-control-allow-origin") == vul_origin:
+        # vul_origin does not have to be case sensitive
+        if resp_headers.get("access-control-allow-origin") == vul_origin.lower():
             if resp_headers.get("access-control-allow-credentials") == "true":
                 return 1
             return 0
         return -1
 
+    def is_cors_permissive(self,test_module_name,test_origin,test_url):
+        ret = self.check_cors_policy(test_origin)
+
+        msg = None
+        if ret == 1:
+            msg = {
+                "url": test_url,
+                "type": test_module_name,
+                "credentials": "true",
+                "origin": test_origin
+            }
+        elif ret == 0:
+            msg = {
+                "url": test_url,
+                "type": test_module_name,
+                "credentials": "false",
+                "origin": test_origin
+            }
+
+        if msg != None:
+            self.cfg["logger"].warning(msg)
+            return True
+
+        self.cfg["logger"].info("%s: nothing found for url %s" % (test_module_name,test_url))
+        return False
+
     def test_reflect_origin(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         test_origin = parsed.scheme + "://" + "evil.com"
 
         self.cfg["logger"].info(
-            "Start checking reflect_origin for " + test_url)
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
-
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "reflect_origin",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "reflect_origin",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found reflect_origin for " + test_url)
-        return False
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
     def test_prefix_match(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         test_origin = parsed.scheme + "://" + parsed.netloc + ".evil.com"
 
-        self.cfg["logger"].info("Start checking prefix_match for " + test_url)
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "prefix_match",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "prefix_match",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found prefix_match for " + test_url)
-        return False
 
     def test_suffix_match(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         sld = get_tld(test_url.strip())
         test_origin = parsed.scheme + "://" + "evil" + sld
 
-        self.cfg["logger"].info("Start checking suffix_match for " + test_url)
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "suffix_match",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "suffix_match",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found suffix_match for " + test_url)
-        return False
 
     def test_trust_null(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         test_origin = "null"
-        self.cfg["logger"].info("Start checking trust_null for " + test_url)
 
-        ret = self.check_cors_policy(test_origin)
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "trust_null",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "trust_null",
-                "credentials": "false"
-            }
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found trust_null for " + test_url)
-        return False
 
     def test_include_match(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         sld = get_tld(test_url.strip())
         test_origin = parsed.scheme + "://" + sld[1:]
 
-        self.cfg["logger"].info("Start checking include_match for " + test_url)
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "include_match",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "include_match",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found include_match for " + test_url)
-        return False
 
     def test_not_escape_dot(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         sld = get_tld(test_url.strip())
         domain = parsed.netloc
         test_origin = parsed.scheme + "://" + domain[::-1].replace(
             '.', 'a', 1)[::-1]
+
         self.cfg["logger"].info(
-            "Start checking not_escape_dot for " + test_url)
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "not_escape_dot",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "not_escape_dot",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found not_escape_dot for " + test_url)
-        return False
 
     def test_trust_any_subdomain(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         test_origin = parsed.scheme + "://" + "evil." + parsed.netloc
 
         self.cfg["logger"].info(
-            "Start checking trust_any_subdomain for " + test_url)
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "trust_any_subdomain",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "trust_any_subdomain",
-                "credentials": "false"
-            }
-
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info(
-            "Not found trust_any_subdomain for " + test_url)
-        return False
 
     def test_https_trust_http(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
         if parsed.scheme != "https":
@@ -269,29 +175,33 @@ class CORSCheck:
         test_origin = "http://" + parsed.netloc
 
         self.cfg["logger"].info(
-            "Start checking https_trust_http for " + test_url)
+            "Start checking %s for %s" % (module_name,test_url))
 
-        ret = self.check_cors_policy(test_origin)
+        return self.is_cors_permissive(module_name,test_origin,test_url)
 
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": "https_trust_http",
-                "credentials": "true"
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": "https_trust_http",
-                "credentials": "false"
-            }
 
-        if msg != None:
-            self.cfg["logger"].warning(msg)
-            return True
-        self.cfg["logger"].info("Not found https_trust_http for " + test_url)
-        return False
+    def test_custom_third_parties(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
+        test_url = self.url
+        parsed = urlparse(test_url)
+        sld = get_tld(test_url.strip())
+        domain = parsed.netloc
+        
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
+
+        is_cors_perm = False
+
+        # Opening origins file
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'..%sorigins.json' % os.sep)) as origins_file:  
+            origins = json.load(origins_file)['origins']
+
+            for test_origin in origins:
+
+                is_cors_perm = self.is_cors_permissive(module_name,test_origin,test_url)
+                if is_cors_perm: break
+
+        return is_cors_perm
 
     def check_one_by_one(self):
         if self.test_reflect_origin():
@@ -309,4 +219,6 @@ class CORSCheck:
         elif self.test_https_trust_http():
             return
         elif self.test_trust_any_subdomain():
+            return
+        elif self.test_custom_third_parties():
             return
