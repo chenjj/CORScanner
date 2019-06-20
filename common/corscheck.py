@@ -1,6 +1,9 @@
 import requests, json, os, inspect, tldextract
 from urlparse import urlparse
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 class CORSCheck:
     """docstring for CORSCheck"""
     url = None
@@ -224,9 +227,9 @@ class CORSCheck:
             'test_trust_null',
             'test_include_match',
             'test_not_escape_dot',
+            'test_custom_third_parties',
             'test_https_trust_http',
             'test_trust_any_subdomain',
-            'test_custom_third_parties'
         ]
 
         for fname in functions:
