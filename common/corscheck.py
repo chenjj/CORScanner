@@ -16,6 +16,7 @@ class CORSCheck:
         
     def send_req(self, url, origin):
         try:
+
             headers = {
                 'Origin':
                 origin,
@@ -24,10 +25,12 @@ class CORSCheck:
                 'User-Agent':
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
+
             if self.headers != None:
                 headers.update(self.headers)
+
             # self-signed cert OK
-            resp = requests.get(self.url, timeout=5, headers=headers, verify=True, allow_redirects=True)
+            resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=True)
 
             # It could be interesting to keep redirects if requesting/requested origins domains are matching
             # (means that a vulnerable origin has been found on the targeted domain/subdomain)
@@ -54,6 +57,7 @@ class CORSCheck:
 
         if resp_headers == None:
             return -1
+        
         # vul_origin does not have to be case sensitive
         if vul_origin.lower() in str(resp_headers.get("access-control-allow-origin")):
             if resp_headers.get("access-control-allow-credentials") == "true":
