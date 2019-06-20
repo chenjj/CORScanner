@@ -9,6 +9,7 @@ class CORSCheck:
     url = None
     cfg = None
     headers = None
+    result = {}
 
     def __init__(self, url, cfg):
         self.url = url
@@ -74,6 +75,7 @@ class CORSCheck:
 
         if msg != None:
             self.cfg["logger"].warning(msg)
+            self.result = msg
             return True
 
         self.cfg["logger"].info("%s: nothing found for url %s" % (test_module_name,test_url))
@@ -204,21 +206,20 @@ class CORSCheck:
         return is_cors_perm
 
     def check_one_by_one(self):
-        if self.test_reflect_origin():
-            return
-        elif self.test_prefix_match():
-            return
-        elif self.test_suffix_match():
-            return
-        elif self.test_trust_null():
-            return
-        elif self.test_include_match():
-            return
-        elif self.test_not_escape_dot():
-            return
-        elif self.test_https_trust_http():
-            return
-        elif self.test_trust_any_subdomain():
-            return
-        elif self.test_custom_third_parties():
-            return
+        functions = [
+            'test_reflect_origin',
+            'test_prefix_match',
+            'test_suffix_match',
+            'test_trust_null',
+            'test_include_match',
+            'test_not_escape_dot',
+            'test_https_trust_http',
+            'test_trust_any_subdomain',
+            'test_custom_third_parties'
+        ]
+
+        for fname in functions:
+            func = getattr(self,fname)
+            if(func()): break
+        
+        return self.result

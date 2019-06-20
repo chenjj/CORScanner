@@ -1,6 +1,7 @@
 import json
 import sys
 import argparse
+import threading
 
 from common.common import *
 from common.logger import Log
@@ -13,6 +14,8 @@ from gevent.pool import Pool
 from gevent.queue import Queue
 from colorama import init
 
+# Globals
+results = []
 
 def banner():
     print("""%s
@@ -51,7 +54,7 @@ def parse_args():
         help='Number of threads to use for CORS scan',
         type=int,
         default=50)
-    parser.add_argument('-o', '--output', help='Save the results to text file')
+    parser.add_argument('-o', '--output', help='Save the results to json file')
     parser.add_argument(
         '-v',
         '--verbose',
@@ -65,12 +68,23 @@ def parse_args():
     return args
 
 
-def scan(cfg):
+# Synchronize results
+c = threading.Condition()
+
+def scan(cfg, log):
+    global results
+
     while not cfg["queue"].empty():
         try:
             item = cfg["queue"].get(timeout=1.0)
             cors_check = CORSCheck(item, cfg)
-            cors_check.check_one_by_one()
+            msg = cors_check.check_one_by_one()
+
+            # Keeping results to be written to file only if needed
+            if log.filename:
+                c.acquire()
+                results.append(msg)
+                c.release()
         except Exception, e:
             print e
             break
@@ -90,12 +104,18 @@ def main():
     read_urls(args.url, args.input, queue)
 
     print "Start CORS scaning..."
-    threads = [gevent.spawn(scan, cfg) for i in range(args.threads)]
+    threads = [gevent.spawn(scan, cfg, log) for i in range(args.threads)]
 
     try:
         gevent.joinall(threads)
     except KeyboardInterrupt, e:
         pass
+
+    # Writing results file if output file has been set
+    if log.filename:
+        with open(log.filename, 'w') as output_file:
+            output_file.write(json.dumps(results))
+            output_file.close()
     print "Finished CORS scaning..."
 
 
