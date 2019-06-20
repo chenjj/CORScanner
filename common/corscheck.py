@@ -217,9 +217,9 @@ class CORSCheck:
             'test_trust_null',
             'test_include_match',
             'test_not_escape_dot',
+            'test_custom_third_parties',
             'test_https_trust_http',
             'test_trust_any_subdomain',
-            'test_custom_third_parties'
         ]
 
         for fname in functions:
