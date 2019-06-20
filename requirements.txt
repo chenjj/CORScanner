@@ -1,5 +1,5 @@
 requests
 gevent
-tld
+tldextract
 argparse
 colorama
