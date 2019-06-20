@@ -26,13 +26,6 @@ class Log:
                 else:
                     sys.stdout.write(msg + "\r\n")
                 sys.stdout.flush()
-
-            if self.filename and level >= 2:
-                import fcntl
-                f = open(self.filename, 'a+')
-                fcntl.lockf(f.fileno(), fcntl.LOCK_EX)
-                f.write(json.dumps(msg) + "\r\n")
-                f.close()
         except KeyboardInterrupt:
             self.close()
 

@@ -41,7 +41,7 @@ Short Form    | Long Form     | Description
 -d            | --headers     | Add headers to the request
 -i            | --input       | URL/domain list file to check their CORS policy
 -t            | --threads     | Number of threads to use for CORS scan
--o            | --output      | Save the results to text file
+-o            | --output      | Save the results to json file
 -v            | --verbose     | Enable the verbose mode and display results in realtime
 -h            | --help        | show the help message and exit
 
@@ -80,9 +80,10 @@ Substring match          | `wwww.example.com` trusts `example.co`, which could b
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
-
- Welcome to contribute more.
-
+custom_third_parties     | Custom third parties origins set in origins.json file.
+  
+Welcome to contribute more.  
+  
 ## Exploitation examples
 Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com(fixed). Secrets on walmart.com can be read by any malicious website(in the demo we use localhost as the malicious website).
 
