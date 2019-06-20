@@ -28,7 +28,8 @@ class CORSCheck:
             }
             if self.headers != None:
                 headers.update(self.headers)
-            resp = requests.get(self.url, timeout=5, headers=headers, allow_redirects=False)
+            # self-signed cert OK
+            resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=False)
         except Exception, e:
             resp = None
         return resp

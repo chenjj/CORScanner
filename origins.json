@@ -1,11 +1,10 @@
 {
 	"origins":[
-		"https://github.com",
-		"https://gitlab.com",
-		"https://pastebin.com",
+		"https://whatever.github.io",
 		"http://jsbin.com",
 		"https://codepen.io",
 		"https://jsfiddle.net",
-		"http://whatever.s3.amazonaws.com"
+		"http://www.webdevout.net",
+		"https://repl.it"
 		]
 }
