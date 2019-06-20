@@ -80,7 +80,7 @@ Substring match          | `wwww.example.com` trusts `example.co`, which could b
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
-custom_third_parties     | Custom third parties origins set in origins.json file.
+custom_third_parties     | Custom unsafe third parties origins like `github.io`, see more in [origins.json](./origins.json) file. Thanks [@phackt](https://github.com/phackt)!
   
 Welcome to contribute more.  
   
