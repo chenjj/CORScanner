@@ -41,7 +41,7 @@ Short Form    | Long Form     | Description
 -d            | --headers     | Add headers to the request
 -i            | --input       | URL/domain list file to check their CORS policy
 -t            | --threads     | Number of threads to use for CORS scan
--o            | --output      | Save the results to text file
+-o            | --output      | Save the results to json file
 -v            | --verbose     | Enable the verbose mode and display results in realtime
 -h            | --help        | show the help message and exit
 
