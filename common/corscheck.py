@@ -1,11 +1,8 @@
-import requests, json, os, inspect
+import requests, json, os, inspect, tldextract
 from urlparse import urlparse
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-from tld import get_tld
-
 
 class CORSCheck:
     """docstring for CORSCheck"""
@@ -22,6 +19,7 @@ class CORSCheck:
         
     def send_req(self, url, origin):
         try:
+
             headers = {
                 'Origin':
                 origin,
@@ -30,10 +28,21 @@ class CORSCheck:
                 'User-Agent':
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
+
             if self.headers != None:
                 headers.update(self.headers)
+
             # self-signed cert OK
-            resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=False)
+            resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=True)
+
+            # It could be interesting to keep redirects if requesting/requested origins domains are matching
+            # (means that a vulnerable origin has been found on the targeted domain/subdomain)
+            first_domain = '%s.%s' % (tldextract.extract(url).domain,tldextract.extract(url).suffix)
+            last_domain = '%s.%s' % (tldextract.extract(resp.url).domain,tldextract.extract(resp.url).suffix)
+
+            if(first_domain.lower() != last_domain.lower()):
+                resp = None
+
         except Exception, e:
             resp = None
         return resp
@@ -51,8 +60,9 @@ class CORSCheck:
 
         if resp_headers == None:
             return -1
+        
         # vul_origin does not have to be case sensitive
-        if resp_headers.get("access-control-allow-origin") == vul_origin.lower():
+        if vul_origin.lower() in str(resp_headers.get("access-control-allow-origin")):
             if resp_headers.get("access-control-allow-credentials") == "true":
                 return 1
             return 0
@@ -100,7 +110,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        test_origin = parsed.scheme + "://" + parsed.netloc + ".evil.com"
+        test_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0] + ".evil.com"
 
         self.cfg["logger"].info(
             "Start checking %s for %s" % (module_name,test_url))
@@ -112,7 +122,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = get_tld(test_url.strip())
+        sld = tldextract.extract(test_url.strip()).suffix
         test_origin = parsed.scheme + "://" + "evil" + sld
 
         self.cfg["logger"].info(
@@ -136,7 +146,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = get_tld(test_url.strip())
+        sld = tldextract.extract(test_url.strip()).suffix
         test_origin = parsed.scheme + "://" + sld[1:]
 
         self.cfg["logger"].info(
@@ -149,8 +159,8 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = get_tld(test_url.strip())
-        domain = parsed.netloc
+        sld = tldextract.extract(test_url.strip()).suffix
+        domain = parsed.netloc.split(':')[0]
         test_origin = parsed.scheme + "://" + domain[::-1].replace(
             '.', 'a', 1)[::-1]
 
@@ -164,7 +174,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        test_origin = parsed.scheme + "://" + "evil." + parsed.netloc
+        test_origin = parsed.scheme + "://" + "evil." + parsed.netloc.split(':')[0]
 
         self.cfg["logger"].info(
             "Start checking %s for %s" % (module_name,test_url))
@@ -178,7 +188,7 @@ class CORSCheck:
         parsed = urlparse(test_url)
         if parsed.scheme != "https":
             return
-        test_origin = "http://" + parsed.netloc
+        test_origin = "http://" + parsed.netloc.split(':')[0]
 
         self.cfg["logger"].info(
             "Start checking %s for %s" % (module_name,test_url))
@@ -190,8 +200,8 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = get_tld(test_url.strip())
-        domain = parsed.netloc
+        sld = tldextract.extract(test_url.strip()).suffix
+        domain = parsed.netloc.split(':')[0]
         
         self.cfg["logger"].info(
             "Start checking %s for %s" % (module_name,test_url))
