@@ -1,6 +1,9 @@
 import requests, json, os, inspect
 from urlparse import urlparse
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 from tld import get_tld
 
 
