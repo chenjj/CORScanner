@@ -81,7 +81,7 @@ def scan(cfg, log):
             msg = cors_check.check_one_by_one()
 
             # Keeping results to be written to file only if needed
-            if log.filename:
+            if log.filename and msg:
                 c.acquire()
                 results.append(msg)
                 c.release()
@@ -114,7 +114,7 @@ def main():
     # Writing results file if output file has been set
     if log.filename:
         with open(log.filename, 'w') as output_file:
-            output_file.write(json.dumps(results))
+            output_file.write(json.dumps(results, indent=4))
             output_file.close()
     print "Finished CORS scaning..."
 
