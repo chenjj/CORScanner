@@ -94,7 +94,7 @@ class CORSCheck:
             self.result = msg
             return True
 
-        self.cfg["logger"].info("%s: nothing found for %s with origin %s" % (test_url, test_module_name, test_origin))
+        self.cfg["logger"].info("nothing found for {url: %s, origin: %s, type: %s}" % (test_url, test_origin, test_module_name))
         return False
 
     def test_reflect_origin(self):
