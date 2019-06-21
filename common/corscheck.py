@@ -32,11 +32,10 @@ class CORSCheck:
             if self.headers != None:
                 headers.update(self.headers)
 
-            # self-signed cert OK
+            # self-signed cert OK, follow redirections
             resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=True)
 
-            # It could be interesting to keep redirects if requesting/requested origins domains are matching
-            # (means that a vulnerable origin has been found on the targeted domain/subdomain)
+            # remove cross-domain redirections, which may cause false results
             first_domain = '%s.%s' % (tldextract.extract(url).domain,tldextract.extract(url).suffix)
             last_domain = '%s.%s' % (tldextract.extract(resp.url).domain,tldextract.extract(resp.url).suffix)
 
@@ -61,8 +60,11 @@ class CORSCheck:
         if resp_headers == None:
             return -1
         
+        parsed = urlparse(str(resp_headers.get("access-control-allow-origin")))
+        resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
+
         # vul_origin does not have to be case sensitive
-        if vul_origin.lower() in str(resp_headers.get("access-control-allow-origin")):
+        if vul_origin.lower() == resp_origin:
             if resp_headers.get("access-control-allow-credentials") == "true":
                 return 1
             return 0
@@ -221,6 +223,7 @@ class CORSCheck:
 
     def check_one_by_one(self):
         functions = [
+            'test_https_trust_http',
             'test_reflect_origin',
             'test_prefix_match',
             'test_suffix_match',
@@ -228,7 +231,6 @@ class CORSCheck:
             'test_include_match',
             'test_not_escape_dot',
             'test_custom_third_parties',
-            'test_https_trust_http',
             'test_trust_any_subdomain',
         ]
 
