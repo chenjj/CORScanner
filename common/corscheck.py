@@ -223,7 +223,6 @@ class CORSCheck:
 
     def check_one_by_one(self):
         functions = [
-            'test_https_trust_http',
             'test_reflect_origin',
             'test_prefix_match',
             'test_suffix_match',
@@ -231,6 +230,7 @@ class CORSCheck:
             'test_include_match',
             'test_not_escape_dot',
             'test_custom_third_parties',
+            'test_https_trust_http',
             'test_trust_any_subdomain',
         ]
 
