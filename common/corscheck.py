@@ -36,8 +36,8 @@ class CORSCheck:
             resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=True)
 
             # remove cross-domain redirections, which may cause false results
-            first_domain = '%s.%s' % (tldextract.extract(url).domain,tldextract.extract(url).suffix)
-            last_domain = '%s.%s' % (tldextract.extract(resp.url).domain,tldextract.extract(resp.url).suffix)
+            first_domain =tldextract.extract(url).registered_domain
+            last_domain = tldextract.extract(resp.url).registered_domain
 
             if(first_domain.lower() != last_domain.lower()):
                 resp = None
@@ -94,7 +94,7 @@ class CORSCheck:
             self.result = msg
             return True
 
-        self.cfg["logger"].info("%s: nothing found for url %s" % (test_module_name,test_url))
+        self.cfg["logger"].info("%s: nothing found for %s with origin %s" % (test_url, test_module_name, test_origin))
         return False
 
     def test_reflect_origin(self):
@@ -124,7 +124,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = tldextract.extract(test_url.strip()).suffix
+        sld = tldextract.extract(test_url.strip()).registered_domain
         test_origin = parsed.scheme + "://" + "evil" + sld
 
         self.cfg["logger"].info(
@@ -148,7 +148,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = tldextract.extract(test_url.strip()).suffix
+        sld = tldextract.extract(test_url.strip()).registered_domain
         test_origin = parsed.scheme + "://" + sld[1:]
 
         self.cfg["logger"].info(
@@ -161,7 +161,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = tldextract.extract(test_url.strip()).suffix
+        sld = tldextract.extract(test_url.strip()).registered_domain
         domain = parsed.netloc.split(':')[0]
         test_origin = parsed.scheme + "://" + domain[::-1].replace(
             '.', 'a', 1)[::-1]
@@ -202,7 +202,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        sld = tldextract.extract(test_url.strip()).suffix
+        sld = tldextract.extract(test_url.strip()).registered_domain
         domain = parsed.netloc.split(':')[0]
         
         self.cfg["logger"].info(
@@ -230,8 +230,8 @@ class CORSCheck:
             'test_include_match',
             'test_not_escape_dot',
             'test_custom_third_parties',
-            'test_https_trust_http',
             'test_trust_any_subdomain',
+            'test_https_trust_http',
         ]
 
         for fname in functions:
