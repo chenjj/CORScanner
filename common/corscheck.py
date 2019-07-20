@@ -53,9 +53,10 @@ class CORSCheck:
             (k.lower(), v) for k, v in resp.headers.iteritems())
         return resp_headers
 
-    def check_cors_policy(self, vul_origin):
-        resp = self.send_req(self.url, vul_origin)
+    def check_cors_policy(self, test_module_name,test_origin,test_url):
+        resp = self.send_req(self.url, test_origin)
         resp_headers = self.get_resp_headers(resp)
+        status_code = resp.status_code if resp is not None else None
 
         if resp_headers == None:
             return -1
@@ -63,31 +64,28 @@ class CORSCheck:
         parsed = urlparse(str(resp_headers.get("access-control-allow-origin")))
         resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
 
-        # vul_origin does not have to be case sensitive
-        if vul_origin.lower() == resp_origin:
+        msg = None
+
+        # test_origin does not have to be case sensitive
+        if test_origin.lower() == resp_origin:
+            credentials = "false"
+
             if resp_headers.get("access-control-allow-credentials") == "true":
-                return 1
-            return 0
-        return -1
+                credentials = "true"
+            
+            # Set the msg
+            msg = {
+                "url": test_url,
+                "type": test_module_name,
+                "credentials": credentials,
+                "origin": test_origin,
+                "status_code" : status_code
+            }
+
+        return msg
 
     def is_cors_permissive(self,test_module_name,test_origin,test_url):
-        ret = self.check_cors_policy(test_origin)
-
-        msg = None
-        if ret == 1:
-            msg = {
-                "url": test_url,
-                "type": test_module_name,
-                "credentials": "true",
-                "origin": test_origin
-            }
-        elif ret == 0:
-            msg = {
-                "url": test_url,
-                "type": test_module_name,
-                "credentials": "false",
-                "origin": test_origin
-            }
+        msg = self.check_cors_policy(test_module_name,test_origin,test_url)
 
         if msg != None:
             self.cfg["logger"].warning(msg)
