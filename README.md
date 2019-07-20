@@ -29,9 +29,9 @@ sudo pip install -r requirements.txt
 
 CORScanner depends on the `requests`, `gevent`, `tld`, `colorama` and `argparse` python modules.
 
-## Recommended Python Version:
+## Python Version:
 
-* The recommended version for Python 2 is **2.7.x**
+* Both Python 2 (**2.7.x**) and Python 3 (**3.7.x**) are supported.
 
 ## Usage
 

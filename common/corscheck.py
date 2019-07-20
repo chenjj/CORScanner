@@ -1,5 +1,13 @@
+import gevent.monkey
+gevent.monkey.patch_all()
+
 import requests, json, os, inspect, tldextract
-from urlparse import urlparse
+
+from future.utils import iteritems
+try:
+    from urllib.parse import urlparse
+except Exception as e:
+    from urlparse import urlparse
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -28,7 +36,6 @@ class CORSCheck:
                 'User-Agent':
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-
             if self.headers != None:
                 headers.update(self.headers)
 
@@ -42,7 +49,7 @@ class CORSCheck:
             if(first_domain.lower() != last_domain.lower()):
                 resp = None
 
-        except Exception, e:
+        except Exception as e:
             resp = None
         return resp
 
@@ -50,7 +57,7 @@ class CORSCheck:
         if resp == None:
             return None
         resp_headers = dict(
-            (k.lower(), v) for k, v in resp.headers.iteritems())
+            (k.lower(), v) for k, v in iteritems(resp.headers))
         return resp_headers
 
     def check_cors_policy(self, test_module_name,test_origin,test_url):

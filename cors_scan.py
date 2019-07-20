@@ -18,7 +18,7 @@ from colorama import init
 results = []
 
 def banner():
-    print("""%s
+    print(("""%s
    ____ ___  ____  ____   ____    _    _   _ _   _ _____ ____  
   / ___/ _ \|  _ \/ ___| / ___|  / \  | \ | | \ | | ____|  _ \ 
  | |  | | | | |_) \___ \| |     / _ \ |  \| |  \| |  _| | |_) |
@@ -26,13 +26,13 @@ def banner():
   \____\___/|_| \_\____/ \____/_/   \_\_| \_|_| \_|_____|_| \_\
                                                                %s%s
         # Coded By Jianjun Chen - whucjj@gmail.com%s
-    """ % ('\033[91m', '\033[0m', '\033[93m', '\033[0m'))
+    """ % ('\033[91m', '\033[0m', '\033[93m', '\033[0m')))
 
 
 def parser_error(errmsg):
     banner()
-    print("Usage: python " + sys.argv[0] + " [Options] use -h for help")
-    print("Error: " + errmsg)
+    print(("Usage: python " + sys.argv[0] + " [Options] use -h for help"))
+    print(("Error: " + errmsg))
     sys.exit()
 
 
@@ -85,8 +85,8 @@ def scan(cfg, log):
                 c.acquire()
                 results.append(msg)
                 c.release()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             break
 
 
@@ -103,12 +103,12 @@ def main():
 
     read_urls(args.url, args.input, queue)
 
-    print "Start CORS scaning..."
+    print("Start CORS scaning...")
     threads = [gevent.spawn(scan, cfg, log) for i in range(args.threads)]
 
     try:
         gevent.joinall(threads)
-    except KeyboardInterrupt, e:
+    except KeyboardInterrupt as e:
         pass
 
     # Writing results file if output file has been set
@@ -116,7 +116,7 @@ def main():
         with open(log.filename, 'w') as output_file:
             output_file.write(json.dumps(results, indent=4))
             output_file.close()
-    print "Finished CORS scaning..."
+    print("Finished CORS scaning...")
 
 
 if __name__ == '__main__':
