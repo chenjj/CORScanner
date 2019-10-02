@@ -26,8 +26,7 @@ git clone https://github.com/chenjj/CORScanner.git
 ```
 sudo pip install -r requirements.txt
 ```
-
-CORScanner depends on the `requests`, `gevent`, `tld`, `colorama` and `argparse` python modules.
+CORScanner depends on the `requests`, `gevent`, `tldextract`, `colorama` and `argparse` python modules.
 
 ## Python Version:
 
@@ -85,7 +84,7 @@ custom_third_parties     | Custom unsafe third parties origins like `github.io`,
 Welcome to contribute more.  
   
 ## Exploitation examples
-Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com(fixed). Secrets on walmart.com can be read by any malicious website(in the demo we use localhost as the malicious website).
+Here is an example about how to exploit "Reflect_any_origin" misconfiguration on Walmart.com(fixed). Localhost is the malicious website in the video.
 
 Walmart.com video on Youtube:
 
