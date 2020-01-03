@@ -1,13 +1,15 @@
 import gevent.monkey
 gevent.monkey.patch_all()
 
-import requests, json, os, inspect, tldextract
+import requests, json, os, inspect, tldextract, itertools
 
 from future.utils import iteritems
 try:
     from urllib.parse import urlparse
+    from urllib.parse import urlsplit
 except Exception as e:
     from urlparse import urlparse
+    from urlparse import urlsplit
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -88,7 +90,6 @@ class CORSCheck:
                 "origin": test_origin,
                 "status_code" : status_code
             }
-
         return msg
 
     def is_cors_permissive(self,test_module_name,test_origin,test_url):
@@ -225,6 +226,28 @@ class CORSCheck:
                 if is_cors_perm: break
 
         return is_cors_perm
+    
+    def test_special_characters_bypass(self):
+        module_name = inspect.stack()[0][3].replace('test_','');
+        test_url = self.url
+        base_url = "{0.scheme}://{0.netloc}".format(urlsplit(test_url))
+        special_characters = ['-','"','{','}','+','_','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
+        domains = ["https://localhost","http://localhost",base_url]
+        origins = []
+
+        for char in special_characters:
+            attempt = base_url + char + ".evil.com"
+            origins.append(attempt)
+            
+        is_cors_perm = False
+
+        self.cfg["logger"].info(
+            "Start checking %s for %s" % (module_name,test_url))
+
+        for test_origin in origins:
+            is_cors_perm = self.is_cors_permissive(module_name,test_origin,test_url)
+
+        return is_cors_perm
 
     def check_one_by_one(self):
         functions = [
@@ -237,10 +260,12 @@ class CORSCheck:
             'test_custom_third_parties',
             'test_trust_any_subdomain',
             'test_https_trust_http',
+            'test_special_characters_bypass'
         ]
 
         for fname in functions:
             func = getattr(self,fname)
-            if(func()): break
+            func()
+            # if(func()): break
         
         return self.result
