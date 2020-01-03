@@ -79,8 +79,8 @@ Substring match          | `wwww.example.com` trusts `example.co`, which could b
 Trust_null               | `wwww.example.com` trusts `null`, which can be forged by iframe sandbox scripts
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
-custom_third_parties     | Custom unsafe third parties origins like `github.io`, see more in [origins.json](./origins.json) file. Thanks [@phackt](https://github.com/phackt)!
-special_characters_bypass| Abused Safari’s handling of special characters bypass CORS misconfigurations, see more in [Think Outside the Scope: Advanced CORS Exploitation Techniques](https://medium.com/bugbountywriteup/think-outside-the-scope-advanced-cors-exploitation-techniques-dad019c68397) , [Advanced CORS Exploitation Techniques](https://www.corben.io/advanced-cors-techniques/)  
+Custom_third_parties     | Custom unsafe third parties origins like `github.io`, see more in [origins.json](./origins.json) file. Thanks [@phackt](https://github.com/phackt)!
+Special_characters_bypass| Exploiting browsers’ handling of special characters. Most can only work in Safari except `_`, which can also work in Chrome and Firefox. See more in [Advanced CORS Exploitation Techniques](https://www.corben.io/advanced-cors-techniques/). Thanks [@Malayke](https://github.com/Malayke).
   
 Welcome to contribute more.  
   

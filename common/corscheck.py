@@ -1,15 +1,13 @@
 import gevent.monkey
 gevent.monkey.patch_all()
 
-import requests, json, os, inspect, tldextract, itertools
+import requests, json, os, inspect, tldextract
 
 from future.utils import iteritems
 try:
     from urllib.parse import urlparse
-    from urllib.parse import urlsplit
 except Exception as e:
     from urlparse import urlparse
-    from urlparse import urlsplit
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -230,13 +228,13 @@ class CORSCheck:
     def test_special_characters_bypass(self):
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
-        base_url = "{0.scheme}://{0.netloc}".format(urlsplit(test_url))
+        parsed = urlparse(test_url)
         special_characters = ['-','"','{','}','+','_','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
-        domains = ["https://localhost","http://localhost",base_url]
+
         origins = []
 
         for char in special_characters:
-            attempt = base_url + char + ".evil.com"
+            attempt = parsed.scheme + "://" + parsed.netloc.split(':')[0] + char + ".evil.com"
             origins.append(attempt)
             
         is_cors_perm = False
@@ -246,6 +244,7 @@ class CORSCheck:
 
         for test_origin in origins:
             is_cors_perm = self.is_cors_permissive(module_name,test_origin,test_url)
+            if is_cors_perm: break
 
         return is_cors_perm
 
@@ -258,14 +257,14 @@ class CORSCheck:
             'test_include_match',
             'test_not_escape_dot',
             'test_custom_third_parties',
+            'test_special_characters_bypass',
             'test_trust_any_subdomain',
             'test_https_trust_http',
-            'test_special_characters_bypass'
         ]
 
         for fname in functions:
             func = getattr(self,fname)
-            func()
-            # if(func()): break
-        
+            # Stop if we found a exploit case.
+            if(func()): break 
+
         return self.result
