@@ -229,7 +229,7 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         parsed = urlparse(test_url)
-        special_characters = ['-','"','{','}','+','_','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
+        special_characters = ['_','-','"','{','}','+','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
 
         origins = []
 
