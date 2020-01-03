@@ -231,15 +231,14 @@ class CORSCheck:
         module_name = inspect.stack()[0][3].replace('test_','');
         test_url = self.url
         base_url = "{0.scheme}://{0.netloc}".format(urlsplit(test_url))
-        bypass = ['','-','"','{','}','+','_','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
+        special_characters = ['-','"','{','}','+','_','^','%60','!','~','`',';','|','&',"'",'(',')','*',',','$','=','+',"%0b"]
         domains = ["https://localhost","http://localhost",base_url]
-        origins = [base_url+"example.com",base_url+"example.com"]
+        origins = []
 
-        for r in itertools.product(domains,bypass):
-            attempt = r[0]+r[1]+".example.com"
+        for char in special_characters:
+            attempt = base_url + char + ".evil.com"
             origins.append(attempt)
-
-        origins.append('null')
+            
         is_cors_perm = False
 
         self.cfg["logger"].info(
