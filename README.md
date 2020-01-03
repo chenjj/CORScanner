@@ -80,7 +80,7 @@ Trust_null               | `wwww.example.com` trusts `null`, which can be forged
 HTTPS_trust_HTTP         | Risky trust dependency, a MITM attacker may steal HTTPS site secrets
 Trust_any_subdomain      | Risky trust dependency, a subdomain XSS may steal its secrets
 custom_third_parties     | Custom unsafe third parties origins like `github.io`, see more in [origins.json](./origins.json) file. Thanks [@phackt](https://github.com/phackt)!
-special_characters_bypass| Abused Safari’s handling of special characters bypass CORS misconfigurations, see more in [Think Outside the Scope: Advanced CORS Exploitation Techniques](https://medium.com/bugbountywriteup/think-outside-the-scope-advanced-cors-exploitation-techniques-dad019c68397) [Advanced CORS Exploitation Techniques](https://www.corben.io/advanced-cors-techniques/)  
+special_characters_bypass| Abused Safari’s handling of special characters bypass CORS misconfigurations, see more in [Think Outside the Scope: Advanced CORS Exploitation Techniques](https://medium.com/bugbountywriteup/think-outside-the-scope-advanced-cors-exploitation-techniques-dad019c68397) , [Advanced CORS Exploitation Techniques](https://www.corben.io/advanced-cors-techniques/)  
   
 Welcome to contribute more.  
   
