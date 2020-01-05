@@ -3,3 +3,4 @@ gevent
 tldextract
 argparse
 colorama
+future
