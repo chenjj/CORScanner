@@ -103,7 +103,7 @@ def main():
 
     read_urls(args.url, args.input, queue)
 
-    print("Start CORS scaning...")
+    print("Starting CORS scan...")
     threads = [gevent.spawn(scan, cfg, log) for i in range(args.threads)]
 
     try:
@@ -116,7 +116,7 @@ def main():
         with open(log.filename, 'w') as output_file:
             output_file.write(json.dumps(results, indent=4))
             output_file.close()
-    print("Finished CORS scaning...")
+    print("Finished CORS scanning...")
 
 
 if __name__ == '__main__':
