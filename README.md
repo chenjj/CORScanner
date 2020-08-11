@@ -50,6 +50,10 @@ Short Form    | Long Form     | Description
 
 ``python cors_scan.py -u example.com``
 
+* To enable more debug info, use -vvv:
+
+``python cors_scan.py -u example.com -vvv``
+
 * To check CORS misconfigurations of specific URL:
 
 ``python cors_scan.py -u http://example.com/restapi``
