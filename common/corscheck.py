@@ -69,7 +69,10 @@ class CORSCheck:
             return None
         
         parsed = urlparse(str(resp_headers.get("access-control-allow-origin")))
-        resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
+        if test_origin!="null":
+            resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
+        else:
+            resp_origin=parsed.path
 
         msg = None
 
