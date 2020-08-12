@@ -69,12 +69,15 @@ class CORSCheck:
             return None
         
         parsed = urlparse(str(resp_headers.get("access-control-allow-origin")))
-        resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
+        if test_origin != "null":
+            resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
+        else:
+            resp_origin = str(resp_headers.get("access-control-allow-origin"))
 
         msg = None
 
         # test_origin does not have to be case sensitive
-        if test_origin.lower() == resp_origin:
+        if test_origin.lower() == resp_origin.lower():
             credentials = "false"
 
             if resp_headers.get("access-control-allow-credentials") == "true":
