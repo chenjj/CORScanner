@@ -6,6 +6,8 @@ CORScanner is a python tool designed to discover CORS misconfigurations vulnerab
 * **Fast**. It uses [gevent](https://github.com/gevent/gevent) instead of Python threads for concurrency, which is much faster for network scanning.
 * **Comprehensive**. It covers all [the common types of CORS misconfigurations](#misconfiguration-types) we know.
 * **Flexible**. It supports various self-define features (e.g. file output), which is helpful for large-scale scanning.
+* 🆕 CORScanner supports installation via pip (`pip install cors`)
+* 🆕 CORScanner can be used a library in your project.
 
 Two useful references for understanding CORS systematically: 
 * USENIX security 18 paper: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
@@ -31,6 +33,24 @@ CORScanner depends on the `requests`, `gevent`, `tldextract`, `colorama` and `ar
 ## Python Version:
 
 * Both Python 2 (**2.7.x**) and Python 3 (**3.7.x**) are supported.
+
+## CORScanner as a library
+
+- Install CORScanner via pip
+
+```
+sudo pip install cors
+```
+
+- Example code:
+```python
+>>> from CORScanner.cors_scan import cors_check
+>>> ret = cors_check("https://www.instagram.com", None)
+>>> ret
+{'url': 'https://www.instagram.com', 'type': 'reflect_origin', 'credentials': 'false', 'origin': 'https://evil.com', 'status_code': 200}
+```
+
+You can also use CORScanner via the `cors` command: `cors -u https://www.instagram.com`
 
 ## Usage
 

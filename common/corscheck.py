@@ -24,6 +24,7 @@ class CORSCheck:
     def __init__(self, url, cfg):
         self.url = url
         self.cfg = cfg
+        self.all_results = []
         if cfg["headers"] != None:
             self.headers = cfg["headers"]
         
@@ -101,6 +102,7 @@ class CORSCheck:
         if msg != None:
             self.cfg["logger"].warning(msg)
             self.result = msg
+            self.all_results.append(msg)
             return True
 
         self.cfg["logger"].info("nothing found for {url: %s, origin: %s, type: %s}" % (test_url, test_origin, test_module_name))
@@ -298,4 +300,4 @@ class CORSCheck:
         for t in threads:
             t.join()
 
-        return self.result
+        return self.all_results
