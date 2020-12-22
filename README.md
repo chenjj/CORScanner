@@ -13,7 +13,7 @@ Two useful references for understanding CORS systematically:
 
 ## Screenshots
 
-![CORScanner](images/screenshot.png "CORScanner in action")
+![CORScanner](https://github.com/chenjj/CORScanner/raw/master/images/screenshot.png "CORScanner in action")
 
 ## Installation
 
