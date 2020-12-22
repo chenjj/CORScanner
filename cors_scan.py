@@ -89,6 +89,14 @@ def scan(cfg, log):
             print(e)
             break
 
+def cors_check(url, headers=None):
+    # disable log
+    log = Log(None, print_level=4)
+    cfg = {"logger": log, "headers": headers}
+
+    cors_check = CORSCheck(url, cfg)
+    msg = cors_check.check_all_in_parallel()
+    return msg
 
 def main():
     init()

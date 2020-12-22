@@ -12,6 +12,8 @@ except Exception as e:
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+from threading import Thread
+
 class CORSCheck:
     """docstring for CORSCheck"""
     url = None
@@ -269,5 +271,31 @@ class CORSCheck:
             func = getattr(self,fname)
             # Stop if we found a exploit case.
             if(func()): break 
+
+        return self.result
+
+    def check_all_in_parallel(self):
+        functions = [
+            'test_reflect_origin',
+            'test_prefix_match',
+            'test_suffix_match',
+            'test_trust_null',
+            'test_include_match',
+            'test_not_escape_dot',
+            'test_custom_third_parties',
+            'test_special_characters_bypass',
+            'test_trust_any_subdomain',
+            'test_https_trust_http',
+        ]
+
+        threads = []
+        for fname in functions:
+            func = getattr(self,fname)
+            t = Thread(target=func)
+            t.start()
+            threads.append(t)
+
+        for t in threads:
+            t.join()
 
         return self.result
