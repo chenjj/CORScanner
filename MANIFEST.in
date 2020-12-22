@@ -1,3 +1,6 @@
+include *
+recursive-include CORScanner *
+
 exclude .gitignore
 global-exclude .DS_Store
 recursive-exclude CORScanner/.git/ *
