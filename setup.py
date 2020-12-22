@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cors',
-    version='0.9.4',
+    version='0.9.5',
     description='Fast CORS misconfiguration vulnerabilities scanner',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
