@@ -19,11 +19,13 @@ class CORSCheck:
     url = None
     cfg = None
     headers = None
+    timeout = None
     result = {}
 
-    def __init__(self, url, cfg):
+    def __init__(self, url, cfg, timeout):
         self.url = url
         self.cfg = cfg
+        self.timeout = timeout
         self.all_results = []
         if cfg["headers"] != None:
             self.headers = cfg["headers"]
@@ -43,7 +45,7 @@ class CORSCheck:
                 headers.update(self.headers)
 
             # self-signed cert OK, follow redirections
-            resp = requests.get(self.url, timeout=5, headers=headers, verify=False, allow_redirects=True)
+            resp = requests.get(self.url, timeout=self.timeout, headers=headers, verify=False, allow_redirects=True)
 
             # remove cross-domain redirections, which may cause false results
             first_domain =tldextract.extract(url).registered_domain
