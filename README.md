@@ -68,7 +68,7 @@ Short Form    | Long Form     | Description
 -t            | --threads     | Number of threads to use for CORS scan
 -o            | --output      | Save the results to json file
 -v            | --verbose     | Enable the verbose mode and display results in realtime
--T            | --timeout     | Set requests timeout (default 10 sec)
+-T            | --timeout     | Set requests timeout (default 5 sec)
 -h            | --help        | show the help message and exit
 
 ### Examples

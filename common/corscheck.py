@@ -22,10 +22,10 @@ class CORSCheck:
     timeout = None
     result = {}
 
-    def __init__(self, url, cfg, timeout):
+    def __init__(self, url, cfg):
         self.url = url
         self.cfg = cfg
-        self.timeout = timeout
+        self.timeout = cfg["timeout"]
         self.all_results = []
         if cfg["headers"] != None:
             self.headers = cfg["headers"]
