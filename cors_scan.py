@@ -69,7 +69,7 @@ def parse_args():
         '--timeout',
         help='Set requests timeout (default 5 sec)',
         type=int,
-        default=5)
+        default=10)
     args = parser.parse_args()
     if not (args.url or args.input):
         parser.error("No url inputed, please add -u or -i option")
@@ -121,7 +121,7 @@ def cors_check(url, headers=None):
 def main():
     init()
     args = parse_args()
-    banner()
+    #banner()
 
     queue = Queue()
     log_level = 1 if args.verbose else 2  # 1: INFO, 2: WARNING
