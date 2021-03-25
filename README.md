@@ -160,5 +160,3 @@ This work is inspired by the following excellent researches:
 * Evan Johnson, “Misconfigured CORS and why web appsec is not getting easier”,  AppSecUSA 2016*
 * Von Jens Müller, "CORS misconfigurations on a large scale", [CORStest](https://github.com/RUB-NDS/CORStest)*
 
-## Version
-**Current version is 1.0**
