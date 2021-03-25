@@ -81,6 +81,10 @@ Short Form    | Long Form     | Description
 
 ``python cors_scan.py -u example.com -vvv``
 
+* To save scan results to a JSON file, use -o:
+
+``python cors_scan.py -u example.com -o output_filename``
+
 * To check CORS misconfigurations of specific URL:
 
 ``python cors_scan.py -u http://example.com/restapi``
