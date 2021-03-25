@@ -20,7 +20,7 @@ Two useful references for understanding CORS systematically:
 *Latex version:*
 
 ```tex
-@inproceedings {chen-cors,
+@inproceedings{chen-cors,
 author = {Jianjun Chen and Jian Jiang and Haixin Duan and Tao Wan and Shuo Chen and Vern Paxson and Min Yang},
 title = {We Still Don{\textquoteright}t Have Secure Cross-Domain Requests: an Empirical Study of {CORS}},
 booktitle = {27th {USENIX} Security Symposium ({USENIX} Security 18)},
