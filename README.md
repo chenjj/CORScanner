@@ -13,6 +13,34 @@ Two useful references for understanding CORS systematically:
 * USENIX security 18 paper: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
 * 中文详解：[绕过浏览器SOP，跨站窃取信息：CORS配置安全漏洞报告及最佳部署实践](https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/)
 
+
+<details><summary>Please consider citing our paper if you do scentific research (Click me).  </summary>
+<p>
+
+*Latex version:*
+
+```tex
+@inproceedings {chen-cors,
+author = {Jianjun Chen and Jian Jiang and Haixin Duan and Tao Wan and Shuo Chen and Vern Paxson and Min Yang},
+title = {We Still Don{\textquoteright}t Have Secure Cross-Domain Requests: an Empirical Study of {CORS}},
+booktitle = {27th {USENIX} Security Symposium ({USENIX} Security 18)},
+year = {2018},
+isbn = {978-1-939133-04-5},
+address = {Baltimore, MD},
+pages = {1079--1093},
+url = {https://www.usenix.org/conference/usenixsecurity18/presentation/chen-jianjun},
+publisher = {{USENIX} Association},
+month = aug,
+}
+```
+
+*Word version:*
+
+Jianjun Chen, Jian Jiang, Haixin Duan, Tao Wan, Shuo Chen, Vern Paxson, and Min Yang. "We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS." In 27th USENIX Security Symposium (USENIX Security 18), pp. 1079-1093. 2018.
+
+</p>
+</details>
+
 ## Screenshots
 
 ![CORScanner](https://github.com/chenjj/CORScanner/raw/master/images/screenshot.png "CORScanner in action")
