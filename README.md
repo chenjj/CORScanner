@@ -84,7 +84,7 @@ sudo pip install cors
 {'url': 'https://www.instagram.com', 'type': 'reflect_origin', 'credentials': 'false', 'origin': 'https://evil.com', 'status_code': 200}
 ```
 
-You can also use CORScanner via the `corscanner` or `cors` command: `corscanner -u https://www.instagram.com -vv`
+You can also use CORScanner via the `corscanner` or `cors` command: `corscanner -vu https://www.instagram.com`
 
 ## Usage
 
@@ -130,9 +130,9 @@ Short Form    | Long Form     | Description
 
 ```python cors_scan.py -u example.com -p http://127.0.0.1:8080```
 
-or
+To use socks5 proxy, install PySocks with `pip install PySocks`
 
-```python cors_scan.py -u example.com -p sock5://127.0.0.1:8080```
+```python cors_scan.py -u example.com -p socks5://127.0.0.1:8080```
 
 * To list all the basic options and switches use -h switch:
 
