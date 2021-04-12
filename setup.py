@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cors',
-    version='0.9.11',
+    version='1.0.0',
     description='Fast CORS misconfiguration vulnerabilities scanner',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -17,7 +17,7 @@ setup(
     },
     license='MIT',
     packages=find_packages(),
-    install_requires=['colorama', 'requests', 'argparse', 'gevent', 'tldextract', 'future'],
+    install_requires=['colorama', 'requests', 'argparse', 'gevent', 'tldextract', 'future', 'PySocks'],
     include_package_data=True,
     zip_safe=False,
     # https://pypi.python.org/pypi?%3Aaction=list_classifiers

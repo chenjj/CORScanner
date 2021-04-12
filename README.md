@@ -97,6 +97,7 @@ Short Form    | Long Form     | Description
 -o            | --output      | Save the results to json file
 -v            | --verbose     | Enable the verbose mode and display results in realtime
 -T            | --timeout     | Set requests timeout (default 10 sec)
+-p            | --proxy       | Enable proxy (http or socks5)
 -h            | --help        | show the help message and exit
 
 ### Examples
@@ -105,9 +106,9 @@ Short Form    | Long Form     | Description
 
 ``python cors_scan.py -u example.com``
 
-* To enable more debug info, use -vvv:
+* To enable more debug info, use -v:
 
-``python cors_scan.py -u example.com -vvv``
+``python cors_scan.py -u example.com -v``
 
 * To save scan results to a JSON file, use -o:
 
@@ -124,6 +125,14 @@ Short Form    | Long Form     | Description
 * To check CORS misconfigurations of multiple domains/URLs:
 
 ``python cors_scan.py -i top_100_domains.txt -t 100``
+
+* To enable proxy for CORScanner, use -p
+
+```python cors_scan.py -u example.com -p http://127.0.0.1:8080```
+
+or
+
+```python cors_scan.py -u example.com -p sock5://127.0.0.1:8080```
 
 * To list all the basic options and switches use -h switch:
 

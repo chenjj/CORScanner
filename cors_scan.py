@@ -2,6 +2,7 @@
 
 import json
 import sys
+import os
 import argparse
 import threading
 
@@ -61,7 +62,7 @@ def parse_args():
         '-v',
         '--verbose',
         help='Enable Verbosity and display results in realtime',
-        nargs='?',
+        action='store_true',
         default=False)
     parser.add_argument('-d', '--headers', help='Add headers to the request.', default=None, nargs='*')
     parser.add_argument(
@@ -70,9 +71,12 @@ def parse_args():
         help='Set requests timeout (default 5 sec)',
         type=int,
         default=10)
+    parser.add_argument('-p', '--proxy', help='Enable proxy (http or socks5)')
     args = parser.parse_args()
     if not (args.url or args.input):
         parser.error("No url inputed, please add -u or -i option")
+    if args.input and not os.path.isfile(args.input):
+        parser.error("Input file " + args.input + " not exist.")
     return args
 
 
@@ -127,11 +131,12 @@ def main():
     log_level = 1 if args.verbose else 2  # 1: INFO, 2: WARNING
 
     log = Log(args.output, log_level)
-    cfg = {"logger": log, "queue": queue, "headers": parse_headers(args.headers), "timeout": args.timeout}
+    cfg = {"logger": log, "queue": queue, "headers": parse_headers(args.headers),
+        "timeout": args.timeout, "proxy": args.proxy}
 
     read_urls(args.url, args.input, queue)
 
-    sys.stderr.write("Starting CORS scan...(Tips: this may take a while, add -vvv option to enable debug info)\n")
+    sys.stderr.write("Starting CORS scan...(Tips: this may take a while, add -v option to enable debug info)\n")
     sys.stderr.flush()
     threads = [gevent.spawn(scan, cfg) for i in range(args.threads)]
 

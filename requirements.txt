@@ -4,3 +4,4 @@ tldextract
 argparse
 colorama
 future
+PySocks

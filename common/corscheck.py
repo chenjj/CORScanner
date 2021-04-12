@@ -29,6 +29,10 @@ class CORSCheck:
         self.all_results = []
         if cfg["headers"] != None:
             self.headers = cfg["headers"]
+        self.proxies = {
+            "http": cfg["proxy"],
+            "https": cfg["proxy"],
+        }
         
     def send_req(self, url, origin):
         try:
@@ -45,7 +49,8 @@ class CORSCheck:
                 headers.update(self.headers)
 
             # self-signed cert OK, follow redirections
-            resp = requests.get(self.url, timeout=self.timeout, headers=headers, verify=False, allow_redirects=True)
+            resp = requests.get(self.url, timeout=self.timeout, headers=headers,
+                verify=False, allow_redirects=True, proxies=self.proxies)
 
             # remove cross-domain redirections, which may cause false results
             first_domain =tldextract.extract(url).registered_domain
