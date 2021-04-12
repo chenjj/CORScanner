@@ -84,7 +84,7 @@ sudo pip install cors
 {'url': 'https://www.instagram.com', 'type': 'reflect_origin', 'credentials': 'false', 'origin': 'https://evil.com', 'status_code': 200}
 ```
 
-You can also use CORScanner via the `corscanner` or `cors` command: `corscanner -vu https://www.instagram.com`
+You can also use CORScanner via the `corscanner` or `cors` command: `cors -vu https://www.instagram.com`
 
 ## Usage
 
