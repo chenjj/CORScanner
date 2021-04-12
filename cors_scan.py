@@ -115,7 +115,7 @@ the CORS policy for a given URL. Example Usage:
 def cors_check(url, headers=None):
     # 0: 'DEBUG', 1: 'INFO', 2: 'WARNING', 3: 'ALERT', 4: 'disable log'
     log = Log(None, print_level=4)
-    cfg = {"logger": log, "headers": header, "timeout": 5}
+    cfg = {"logger": log, "headers": headers, "timeout": 5}
 
     cors_check = CORSCheck(url, cfg)
     #msg = cors_check.check_all_in_parallel()

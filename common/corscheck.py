@@ -29,10 +29,12 @@ class CORSCheck:
         self.all_results = []
         if cfg["headers"] != None:
             self.headers = cfg["headers"]
-        self.proxies = {
-            "http": cfg["proxy"],
-            "https": cfg["proxy"],
-        }
+        self.proxies = {}
+        if cfg.get("proxy") != None:
+            self.proxies = {
+                "http": cfg["proxy"],
+                "https": cfg["proxy"],
+            }
         
     def send_req(self, url, origin):
         try:
