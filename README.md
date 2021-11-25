@@ -10,7 +10,7 @@ CORScanner is a python tool designed to discover CORS misconfigurations vulnerab
 * 🆕 CORScanner can be used as a library in your project.
 
 Two useful references for understanding CORS systematically: 
-* USENIX security 18 paper: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/publication/an-empirical-study-of-cors/)
+* USENIX security 18 paper: [We Still Don’t Have Secure Cross-Domain Requests: an Empirical Study of CORS](https://www.jianjunchen.com/p/CORS-USESEC18.pdf)
 * 中文详解：[绕过浏览器SOP，跨站窃取信息：CORS配置安全漏洞报告及最佳部署实践](https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/)
 
 
